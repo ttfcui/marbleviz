@@ -1,0 +1,31 @@
+https://docs.google.com/spreadsheets/d/1mKMzuFHMluBt8ajiTC_PROsgWfCm2Y0KH5LbSw8HO-0/edit?usp=sharing
+
+
+MARBLE LEAGUE SPEED INDEX METHODOLOGY:
+ 
+1) THE EVENTS. I use 23 events across ML, ML Qualifiers and ML Showdown I consider "racing events." Any result by a marble within those 23 events are used to calculate the Index.
+ 
+2016: Sand Rally, Hurdles, Water Race, 10m Sprint
+2017: Sand Rally, Hurdles, Relay, 5m Sprint, Underwater Race, Steeplechase
+2018: Snow Rally, 5m Ice Dash, Speed Skating, Snowboard Cross, Biathlon, Sand Moguls
+2019: Sand Rally, Hurdles, Relay, 5m Spring, Underwater Race, Biathlon, Elimination Race (First round only)
+ 
+Most notably I exclude 2016 Relay (because of lack of confidence in imputation), 2019 Dirt Race (high # of DSQ) and 2019 Elimination Race (cleaning up finals times was too much work at the moment).
+ 
+2) TIME IMPUTATION. JMR does not record individual legs for team races like the biathlon or relay. I first recorded these times using existing work as well as doing my own frame-by-frame analysis of the race videos.
+ 
+To match these times to marbles, I have to assume an order in which marbles race. When the Crazy Cats' Eyes, I take the order in which they run and apply it to every other team.
+ 
+3) STANDARDIZATION. For each event, I standardize times to have mean 0 and standard deviation 1 across the ML, Qualifier and Showdown iterations of the event in that year. These standardized scores are what's aggregated over events.
+Exceptions are made when there are large gaps in mean times between iterations (like ML2019 sand rally v. 2019 Showdown sand rally). For team races, I standardize results by leg instead of over the full sample.
+ 
+4) WEIGHTING. Because most individual marbles participate in a few events (3-6), a simple average can be influenced by 1-2 outlier performances, good or bad. The best way to handle this is to have more data, but in absence of that I allowed events to be weighed differently in two ways:
+ 
+- Discounting: I order a marble's best standardized times in descending order. Then their best performance has weight 1, their second best has weight b < 1, their nth best has weight b^(n-1) and so forth. This is intended to correct downward bias in a high-performing marble having bad outlier performances. Anyone who plays "osu!" may recognize this as the basis for its PP system.
+ 
+- team event discounting: the relay and biathlon events are events where every marble record times, but those times depend on past legs and not directly comparable. I deflate times in these events, good or bad, by a factor of c < 1.
+ 
+b and c are calibrated using a regression of speed index as a function of b and c on a marble's rank in events. I choose the parameter values that minimizes the SSR of the linear regression. Those values are b=0.95, c=0.525.
+ 
+Model fit can be seen in the following scatterplot: https://imgur.com/a/sMd7ZcI
+While R^2 is low at 0.075, we do see a negative correlation between rank and index that we expect.
