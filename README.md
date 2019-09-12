@@ -16,3 +16,5 @@ Each directory contains contents to replicate *one* panel. Most of them have:
 3. The individual PNGs if the panel needed manual arrangement. If the viz can be
 mostly replicated by the code, the PNGs are not included.
 
+The GIMP files used to add captions and other details to the panels are available
+on request.
